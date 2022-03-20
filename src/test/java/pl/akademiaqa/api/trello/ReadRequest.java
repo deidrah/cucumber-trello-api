@@ -1,16 +1,17 @@
-package pl.akademiaqa.api.trello.boards;
+package pl.akademiaqa.api.trello;
 
 import io.restassured.response.Response;
-import pl.akademiaqa.handlers.api.RequestHandler;
 import lombok.RequiredArgsConstructor;
+import pl.akademiaqa.handlers.api.RequestHandler;
 
 import static io.restassured.RestAssured.given;
 
 @RequiredArgsConstructor
-public class ReadBoardRequest {
+public class ReadRequest {
+
     private final BaseRequest baseRequest;
 
-    public Response readBoard(RequestHandler requestHandler) {
+    public Response read(RequestHandler requestHandler) {
 
         return given()
                 .spec(baseRequest.requestSetup(requestHandler.getQueryParams(), requestHandler.getPathParams()))

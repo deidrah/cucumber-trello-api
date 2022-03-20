@@ -1,4 +1,4 @@
-package pl.akademiaqa.api.trello.boards;
+package pl.akademiaqa.api.trello;
 
 import io.restassured.response.Response;
 import lombok.RequiredArgsConstructor;
@@ -7,16 +7,16 @@ import pl.akademiaqa.handlers.api.RequestHandler;
 import static io.restassured.RestAssured.given;
 
 @RequiredArgsConstructor
-public class UpdateBoardRequest {
+public class DeleteRequest {
 
     private final BaseRequest baseRequest;
 
-    public Response updateBoard(RequestHandler requestHandler) {
+    public Response delete(RequestHandler requestHandler){
 
         return given()
                 .spec(baseRequest.requestSetup(requestHandler.getQueryParams(), requestHandler.getPathParams()))
                 .when()
-                .put(requestHandler.getEndpoint() + "{id}")
+                .delete(requestHandler.getEndpoint() + "{id}")
                 .then()
                 .log().ifError()
                 .extract()
