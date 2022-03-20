@@ -22,8 +22,8 @@ public class CreateBoardSteps {
         Response response = createBoardRequest.createBoard(requestHandler);
         Assertions.assertThat(response.statusCode()).isEqualTo(200);
     }
-    @Then("I see created board")
-    public void i_see_created_board() {
+    @Then("I can read created board details")
+    public void i_can_read_created_board_details() {
 
     }
 
