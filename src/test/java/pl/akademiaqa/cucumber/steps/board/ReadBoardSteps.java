@@ -1,12 +1,10 @@
 package pl.akademiaqa.cucumber.steps.board;
 
 import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
-import pl.akademiaqa.api.trello.boards.CreateBoardRequest;
 import pl.akademiaqa.api.trello.boards.ReadBoardRequest;
 import pl.akademiaqa.common.CommonValues;
 import pl.akademiaqa.handlers.api.RequestHandler;
@@ -14,20 +12,19 @@ import pl.akademiaqa.handlers.api.ResponseHandler;
 import pl.akademiaqa.url.TrelloUrl;
 
 @RequiredArgsConstructor
-public class CreateBoardSteps {
+public class ReadBoardSteps {
 
-    private final CreateBoardRequest createBoardRequest;
+    private final ReadBoardRequest readBoardRequest;
     private final RequestHandler requestHandler;
     private final ResponseHandler responseHandler;
 
-    private String boardId;
-
-    @When("I create a new board")
-    public void i_create_a_new_board() {
+    @Then("I can read created board details")
+    public void i_can_read_created_board_details() {
         requestHandler.setEndpoint(TrelloUrl.BOARDS);
-        requestHandler.addQueryParam("name", CommonValues.BOARD_NAME);
-        responseHandler.setResponse(createBoardRequest.createBoard(requestHandler));
-        Assertions.assertThat(responseHandler.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-    }
+        requestHandler.addPathParam("id", responseHandler.getId());
 
+        Response response = readBoardRequest.readBoard(requestHandler);
+        Assertions.assertThat(response.statusCode()).isEqualTo(HttpStatus.SC_OK);
+        Assertions.assertThat(response.getBody().jsonPath().getString("name")).isEqualTo(CommonValues.BOARD_NAME);
+    }
 }
