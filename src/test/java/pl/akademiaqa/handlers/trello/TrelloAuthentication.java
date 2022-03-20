@@ -1,6 +1,5 @@
-package pl.akademiaqa.cucumber.steps.handlers.trello;
+package pl.akademiaqa.handlers.trello;
 
-import groovy.lang.Singleton;
 import lombok.SneakyThrows;
 
 import java.util.Properties;
