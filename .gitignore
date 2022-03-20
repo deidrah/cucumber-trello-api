@@ -76,3 +76,4 @@ allure-results/*
 target/*
 
 src/test/resources/trello.properties
+*.properties
