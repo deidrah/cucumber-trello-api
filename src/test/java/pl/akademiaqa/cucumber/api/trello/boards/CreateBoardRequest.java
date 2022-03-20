@@ -1,30 +1,21 @@
 package pl.akademiaqa.cucumber.api.trello.boards;
 
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import pl.akademiaqa.cucumber.steps.handlers.trello.TrelloAuthentication;
-
-import java.util.HashMap;
-import java.util.Map;
+import lombok.RequiredArgsConstructor;
+import pl.akademiaqa.cucumber.steps.handlers.api.RequestHandler;
 
 import static io.restassured.RestAssured.given;
 
+@RequiredArgsConstructor
 public class CreateBoardRequest {
+    private final BaseRequest baseRequest;
 
-    TrelloAuthentication trelloAuthentication = new TrelloAuthentication();
-
-    public Response createBoard() {
-
-        Map<String, String> params = new HashMap<>();
-        params.put("name", "TRELLO BOARD FROM CUCUMBER");
-        params.put("key", trelloAuthentication.getKey());
-        params.put("token", trelloAuthentication.getToken());
+    public Response createBoard(RequestHandler requestHandler) {
 
         return given()
-                .queryParams(params)
-                .contentType(ContentType.JSON)
+                .spec(baseRequest.requestSetup(requestHandler.getQueryParams()))
                 .when()
-                .post("https://api.trello.com/1/boards/")
+                .post(requestHandler.getEndpoint())
                 .then()
                 .log().ifError()
                 .extract()
